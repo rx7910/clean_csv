@@ -24,3 +24,5 @@ target
 .idea/**/libraries
 .idea/inspectionProfiles/
 .venv/
+
+.idea
