@@ -10,11 +10,7 @@ import csv
 # f.close()
 
 
-with open('./target/out_step_2.csv') as f:
+import pandas as pd
 
-    f_csv = csv.reader(f)
-
-    for row in f_csv:
-        print(row[0])
-
-f.close()
+df = pd.read_csv('./target/out_10.csv',encoding='utf-8')
+print(df.columns.values)
