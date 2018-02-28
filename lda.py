@@ -2,15 +2,16 @@ import pandas as pd
 import jieba
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
+import pyLDAvis
+import pyLDAvis.sklearn
 
-df = pd.read_csv('./target/out_10.csv', encoding='utf-8')
+df = pd.read_csv('./target/out_all.csv', encoding='utf-8')
 
 
 def chinese_word_cut(mytext):
     return ' '.join(jieba.cut(mytext))
 
-df[5] = df[1].apply(chinese_word_cut)
-print(df[5].head())
+df['content_cutted'] = df.commentContent.apply(chinese_word_cut)
 
 n_features = 1000
 
@@ -28,3 +29,17 @@ lda = LatentDirichletAllocation(n_topics, max_iter=50,
                                 random_state=0)
 lda.fit(tf)
 
+def print_top_words(model, feature_names, n_top_words):
+    for topic_idx, topic in enumerate(model.components_):
+        print('Topic #%d:' % topic_idx)
+        print(' '.join([feature_names[i]
+                        for i in topic.argsort()[:-n_top_words - 1:-1]]))
+    print()
+
+n_top_words = 20
+
+tf_feature_names = tf_vectorizer.get_feature_names()
+print_top_words(lda, tf_feature_names, n_top_words)
+
+pyLDAvis.enable_notebook()
+pyLDAvis.sklearn.prepare(lda, tf, tf_vectorizer)

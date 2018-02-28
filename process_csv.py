@@ -53,6 +53,15 @@ f.close()
 
 cached_dist.sort(key=lambda x: (x[3], x[0]))
 
+with open('./target/out_all.csv','w') as w_all:
+    w_csv_all = csv.writer(w_all)
+    w_csv_all.writerow(head)
+    for row in cached_dist:
+        w_csv_all.writerow(row)
+w_all.close()
+
+
+'''
 current_course_id = None
 next_course_id = None
 current_course_name = None
@@ -72,7 +81,7 @@ with open('./target/out_step_3.csv', 'w') as w_combine:
             cached_str = row[1]
 
 w_combine.close()
-
+'''
 
 # with open('./target/out_step_1.csv') as f2:
 #     with open('./target/out_step_2.csv', 'w') as w2:
